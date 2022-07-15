@@ -15,7 +15,7 @@ class DDReport {
     line,
   }) => {
     let content = `@${phoneMap[developer]} \n`;
-    content += `### eos报警: \n`;
+    content += `### WEM报警: \n`;
     content += `类型: ${type} \n`;
     content += `\n`;
     content += `开发者: ${developer} \n`;
@@ -37,7 +37,7 @@ class DDReport {
   };
   templateStatic = ({ userAgent, type, url, input, method, body, stack }) => {
     let content = ``;
-    content += `### eos报警: \n`;
+    content += `### WEM报警: \n`;
     content += `type: ${type} \n`;
     content += `\n`;
     if (url) {
@@ -68,10 +68,10 @@ class DDReport {
         // title: "线上错误发生了",
         msgtype: "markdown",
         markdown: {
-          title: "EOS报警",
+          title: `${type}报警`,
           text: JS_TYPE_LIST.includes(type)
-            ? this.templateJS(reportObject)
-            : this.templateStatic(reportObject),
+            ? this.templateJS(reportObject) + "前端错误"
+            : this.templateStatic(reportObject) + "前端错误",
         },
         at: {
           atMobiles: [phoneMap[developer]],
@@ -80,6 +80,7 @@ class DDReport {
         },
       }),
     };
+
     return fetch(group_report_url, options).catch(console.log);
   };
 }

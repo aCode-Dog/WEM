@@ -8,7 +8,7 @@ const {
 } = require("./lib/sourcemap");
 const ddContrulor = require("./lib/send_dingding");
 
-const port = 3001;
+const port = 3002;
 
 const app = express();
 
@@ -33,7 +33,7 @@ app.post("/api/report", async function (req, res) {
   console.log(body, "查看类型");
   if (JS_TYPE_LIST.includes(body.type)) {
     // 源码追踪
-    const position = await originalPositionFor(body.stack, body.filename);
+    const position = await originalPositionFor(body.errorMsg, body.filename);
 
     // 开发者追踪
     // const developer = await findDeveloper(position);

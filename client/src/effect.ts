@@ -13,7 +13,7 @@ export const useSelectedOptionsChange = () => {
     setSelectedValues(selectedOptions.map((it) => it.value));
   };
   useEffect(() => {
-    request("http://localhost:3001/api/getMockOptions", {
+    request("http://localhost:3002/api/getMockOptions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json; charset=utf-8",

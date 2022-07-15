@@ -6,16 +6,16 @@ import "./utils/errorReport";
 import MultiCheck from "./MultiCheck/MultiCheck";
 import { useSelectedOptionsChange } from "./effect";
 
-setTimeout(() => {
-  throw new Error("js-runtime error");
-}, 1000);
+// setTimeout(() => {
+//   throw new Error("js-runtime error");
+// }, 1000);
 
 const App: FunctionComponent = (): JSX.Element => {
   const { selectedValues, onSelectedOptionsChange, options } =
     useSelectedOptionsChange();
   return (
     <div>
-      {/* <img src="error-url" /> */}
+      <img src="error-url" />
       <MultiCheck
         label="你最喜欢的技术是?"
         options={options}
