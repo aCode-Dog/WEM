@@ -13,6 +13,7 @@ class DDReport {
     source,
     userAgent,
     line,
+    errorText,
   }) => {
     let content = `@${phoneMap[developer]} \n`;
     content += `### WEM报警: \n`;
@@ -25,6 +26,8 @@ class DDReport {
     content += `源码文件: ${source}\n`;
     content += `\n`;
     content += `源码错误所在行: ${line}\n`;
+    content += `\n`;
+    content += `源码错误内容: ${errorText}\n`;
     content += `\n`;
     content += `源码最后更改时间: ${time}\n`;
     content += `\n`;

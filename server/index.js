@@ -35,14 +35,14 @@ app.post("/api/report", async function (req, res) {
     // 源码追踪
     const position = await originalPositionFor(body.errorMsg, body.filename);
 
-    // 开发者追踪
-    // const developer = await findDeveloper(position);
-    // reportContent = {
-    //   ...reportContent,
-    //   ...position,
-    //   ...developer,
-    //   userAgent,
-    // };
+    //开发者追踪;
+    const developer = await findDeveloper(position);
+    reportContent = {
+      ...reportContent,
+      ...position,
+      ...developer,
+      userAgent,
+    };
   }
   // 强通知
   await ddContrulor.send2developer(reportContent);
