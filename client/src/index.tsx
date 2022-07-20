@@ -16,6 +16,11 @@ const App: FunctionComponent = (): JSX.Element => {
   return (
     <div>
       <img src="error-url" />
+      <img
+        src="https://ts4.cn.mm.bing.net/th?id=OIP-C.BF65ipuWVUGGZIkQJRe7OAHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.25&pid=3.1&rm=2"
+        alt=""
+      />
+
       <MultiCheck
         label="你最喜欢的技术是?"
         options={options}

@@ -7,21 +7,119 @@
     <title>demo1</title>
   </head>
   <body>
-    <script src="./errorReport.js"></script>
+    <!-- <script src="./errorReport.js"></script> -->
 
     <!-- 静态资源加载异常 -->
-    <img src="323422343243s" />
+    <!-- <img src="323422343243s" /> -->
+    <img
+      src="https://ts4.cn.mm.bing.net/th?id=OIP-C.BF65ipuWVUGGZIkQJRe7OAHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.25&pid=3.1&rm=2"
+      alt=""
+    />;
     <script>
       // Promise错误
       Promise.resolve().then(() => {
         const constNum = 1;
         constNum = 3;
       });
+      setTimeout(() => {
+        throw new Error();
+      }, 1000);
       // js runtime错误
       const underVar = void 0;
       underVar.one = 1;
+      const a = undefined;
+      a.b = 1;
 
       //   let undefined = 123;
+    </script>
+    <script>
+      const getJSON = async () => {
+        throw new Error("inner error");
+      };
+      // new Image().src = "/remote/image/notdeinfed.png";
+      // try {
+      //   import("./indexss").then((module) => {
+      //     module.default();
+      //   });
+      // } catch (error) {
+      //   console.log("trycatch", error);
+      // }
+      // try {
+      //   fetch("https://tuia.cn/test");
+      // } catch (error) {
+      //   console.log("trycatch", error);
+      // }
+      // try {
+      //   new Image().src = "/remote/image/notdeinfed.png";
+      // } catch (error) {
+      //   console.log("trycatch", error);
+      // }
+      // window.addEventListener(
+      //   "error",
+      //   (event) => {
+      //     console.log(event);
+      //   },
+      //   true
+      // );
+      window.addEventListener("unhandledrejection", (event) => {
+        console.log("Promise错误:", event.reason.stack);
+      });
+      /**
+       * 处理监控资源加载异常并进行上报
+       */
+
+      window.addEventListener(
+        "load",
+        function () {
+          const resources = performance.getEntriesByType("resource");
+          const rourceErrorData =
+            resources &&
+            resources.filter((value) => {
+              const {
+                name,
+                duration,
+                initiatorType: type,
+                transferSize,
+              } = value;
+
+              /**
+               * 监控资源error，响应时间超过20秒，SDK自身文件除外的所有资源error
+               * @date 2021-11-28
+               * @param {boolean} (Object.prototype.hasOwnProperty.call(resourceError, type) 监控资源
+               * @param {date}  duration 资源加载时间
+               * @param {date}  transferSize 资源大小
+               * @returns {boolean}
+               */
+
+              if (duration > 500 || transferSize === 0) {
+                return value;
+              }
+            });
+
+          // 最终上报数据
+          const data = rourceErrorData.map((value) => {
+            const {
+              initiatorType: resourceType,
+              name: resUrl,
+              startTime,
+              duration,
+            } = value;
+
+            return {
+              resUrl,
+              type: "error",
+              subType: "resource",
+              startTime,
+              resourceType,
+              pageURL: window.location.href,
+              duration,
+            };
+          });
+          console.log("data", data);
+          report(data);
+        },
+        false
+      );
     </script>
   </body>
 </html>

@@ -73,8 +73,8 @@ class DDReport {
         markdown: {
           title: `${type}报警`,
           text: JS_TYPE_LIST.includes(type)
-            ? this.templateJS(reportObject) + "前端错误"
-            : this.templateStatic(reportObject) + "前端错误",
+            ? this.templateJS(reportObject)
+            : this.templateStatic(reportObject),
         },
         at: {
           atMobiles: [phoneMap[developer]],
