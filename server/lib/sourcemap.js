@@ -18,7 +18,6 @@ const originalPositionFor = async (errorMsg, sourceFilePath) => {
 
     rawSourceMap = readFileSync(mapfilepath, "utf-8");
     const consumer = await new SourceMapConsumer(JSON.parse(rawSourceMap));
-    console.log(lineno, colno);
     const pos = lineno
       ? consumer.originalPositionFor({
           line: lineno,
@@ -29,6 +28,7 @@ const originalPositionFor = async (errorMsg, sourceFilePath) => {
       (item) => item === pos.source
     );
     const sourceContent = consumer.sourcesContent[sourceIndex];
+    if (!sourceContent) return pos;
     const contentRowArr = sourceContent.split("\n");
 
     const errorText = contentRowArr[pos.line - 1];
@@ -42,6 +42,7 @@ const findDeveloper = ({ source, line }) => {
   if (!source || !line) {
     return;
   }
+  console.log(source);
   const cuSource = source.match(sourceReg);
   return runShell(
     `git blame ./client${cuSource && cuSource[0]} -L ${line},${line}`

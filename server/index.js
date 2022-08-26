@@ -26,6 +26,7 @@ app.post("/api/report", async function (req, res) {
     );
     return;
   }
+  console.log(body);
   const userAgent = req.headers["user-agent"];
   let reportContent = {
     ...body,

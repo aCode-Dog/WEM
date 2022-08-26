@@ -49,13 +49,13 @@ class DDReport {
     } else {
       content += `url: ${input} `;
       content += `\n`;
-      content += `method: ${method}`;
+      content += `method: ${method} \n`;
       content += `\n`;
-      content += `body: ${body}`;
+      content += `body: ${body} \n`;
       content += `\n`;
-      content += `stack: ${stack}`;
+      content += `stack: ${stack} \n`;
       content += `\n`;
-      content += `userAgent: ${userAgent}`;
+      content += `userAgent: ${userAgent || ""}`;
       content += `\n`;
     }
     return content;

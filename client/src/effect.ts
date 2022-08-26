@@ -13,12 +13,16 @@ export const useSelectedOptionsChange = () => {
     setSelectedValues(selectedOptions.map((it) => it.value));
   };
   useEffect(() => {
-    request("http://localhost:3002/api/getMockOptions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
+    request(
+      "http://localhost:3002/api/getMockOptions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+        },
       },
-    }).then((res) => {
+      "Array"
+    ).then((res) => {
       if (res?.seccess) {
         setOptions(res.data || []);
       }

@@ -17,19 +17,21 @@
     />;
     <script>
       // Promise错误
-      Promise.resolve().then(() => {
-        const constNum = 1;
-        constNum = 3;
-      });
-      setTimeout(() => {
-        throw new Error();
-      }, 1000);
-      // js runtime错误
-      const underVar = void 0;
-      underVar.one = 1;
-      const a = undefined;
-      a.b = 1;
+      // Promise.resolve().then(() => {
+      //   const constNum = 1;
+      //   constNum = 3;
+      // });
+      // setTimeout(() => {
+      //   throw new Error();
+      // }, 1000);
+      // // js runtime错误
+      // const underVar = void 0;
+      // underVar = 1;
 
+      // (function () {
+      //   var undefined = 1;
+      //   alert(undefined);
+      // })();
       //   let undefined = 123;
     </script>
     <script>
@@ -71,7 +73,7 @@
       window.addEventListener(
         "load",
         function () {
-          const resources = performance.getEntriesByType("resource");
+          const resources = performance.getEntriesByType("resource"); //paint 首次内容渲染
           const rourceErrorData =
             resources &&
             resources.filter((value) => {
@@ -84,7 +86,7 @@
 
               /**
                * 监控资源error，响应时间超过20秒，SDK自身文件除外的所有资源error
-               * @date 2021-11-28
+               * @date
                * @param {boolean} (Object.prototype.hasOwnProperty.call(resourceError, type) 监控资源
                * @param {date}  duration 资源加载时间
                * @param {date}  transferSize 资源大小
