@@ -20,29 +20,14 @@ window.addEventListener(
       const url = target?.src;
       // console.log("静态资源加载错误:", url);
       // report...
-      console.log(event);
       report({
         type: "static_src",
         url,
       });
     } else {
       // js runtime 异常上报
-
       const { message, source, lineno, colno, error } = event;
       const errorMsg = { message, source, lineno, colno, error };
-      console.log(
-        message,
-        "错误信息",
-        source,
-        "报错脚本的 url 地址",
-        lineno,
-        "行号",
-        colno,
-        "列号",
-        error,
-        "错误对象",
-        event
-      );
       // report...
       // console.log("js runtime错误:", stack);
       report({
