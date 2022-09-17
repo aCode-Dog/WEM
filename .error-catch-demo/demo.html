@@ -46,11 +46,11 @@
       // } catch (error) {
       //   console.log("trycatch", error);
       // }
-      // try {
-      //   fetch("https://tuia.cn/test");
-      // } catch (error) {
-      //   console.log("trycatch", error);
-      // }
+      try {
+        fetch("https://tuia.cn/test");
+      } catch (error) {
+        console.log("trycatch", error);
+      }
       // try {
       //   new Image().src = "/remote/image/notdeinfed.png";
       // } catch (error) {
@@ -92,7 +92,7 @@
                * @param {date}  transferSize 资源大小
                * @returns {boolean}
                */
-
+              console.log(duration);
               if (duration > 500 || transferSize === 0) {
                 return value;
               }

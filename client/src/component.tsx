@@ -21,8 +21,17 @@ const Components: FunctionComponent = (): JSX.Element => {
         >
           检测一下异步报错
         </div>
-        <div onClick={() => [history.push({ pathname: "/staticError" })]}>
+        <div
+          style={{ marginRight: "100px" }}
+          onClick={() => [history.push({ pathname: "/staticError" })]}
+        >
           检测一下静态资源报错
+        </div>
+        <div
+          style={{ marginRight: "100px" }}
+          onClick={() => [history.push({ pathname: "/PerformanceTest" })]}
+        >
+          性能检测
         </div>
       </div>
       <MultiCheck

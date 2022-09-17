@@ -3,7 +3,7 @@ import { report } from "./errorReport";
 export const request = (
   input: RequestInfo,
   init?: RequestInit | undefined,
-  expect?: string
+  expect = "undefined"
 ) => {
   return fetch(input, init)
     .then(async (res) => {
@@ -13,10 +13,10 @@ export const request = (
         .call(data.data)
         .split("[object")[1]
         .split("]")[0]
-        .trim();
-
-      if (dataPrototype !== expect) {
-        const resErrotString = `期待的数据类型是${expect}但是返回的是${dataPrototype}`;
+        .trim()
+        .toLocaleLowerCase();
+      if (dataPrototype !== expect.toLocaleLowerCase()) {
+        const resErrotString = `The expected data type is "${expect?.toLocaleLowerCase()}" , but what comes back is "${dataPrototype}"`;
         report({
           type: "fetch",
           input,

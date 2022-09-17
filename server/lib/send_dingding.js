@@ -38,7 +38,17 @@ class DDReport {
     content += ``;
     return content;
   };
-  templateStatic = ({ userAgent, type, url, input, method, body, stack }) => {
+  templateStatic = ({
+    userAgent,
+    type,
+    url,
+    input,
+    method,
+    body,
+    stack,
+    pageURL,
+    timeStamp,
+  }) => {
     let content = ``;
     content += `### WEM报警: \n`;
     content += `type: ${type} \n`;
@@ -46,8 +56,13 @@ class DDReport {
     if (url) {
       content += `src: ${url} \n`;
       content += `\n`;
+      content += `耗时: ${timeStamp}ms \n`;
+      content += `\n`;
+      content += `页面地址:${pageURL}\n`;
     } else {
       content += `url: ${input}\n `;
+      content += `\n`;
+      content += `耗时: ${timeStamp}ms \n`;
       content += `\n`;
       content += `method: ${method} \n`;
       content += `\n`;
@@ -55,8 +70,9 @@ class DDReport {
       content += `\n`;
       content += `stack: ${stack} \n`;
       content += `\n`;
-      userAgent ? (content += `userAgent: ${userAgent || ""}`) : "";
+      userAgent ? (content += `userAgent: ${userAgent || ""} \n`) : "\n";
       content += `\n`;
+      content += `页面地址:${pageURL}\n`;
     }
     return content;
   };

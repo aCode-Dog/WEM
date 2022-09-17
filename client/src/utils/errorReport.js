@@ -20,9 +20,12 @@ window.addEventListener(
       const url = target?.src;
       // console.log("静态资源加载错误:", url);
       // report...
+
       report({
         type: "static_src",
         url,
+        pageURL: window.location.href,
+        timeStamp: event.timeStamp.toFixed("1"),
       });
     } else {
       // js runtime 异常上报
@@ -50,52 +53,48 @@ if (window.PromiseRejectionEvent) {
     });
   });
 }
-// window.addEventListener(
-//   "load",
-//   function () {
-//     const resources = performance.getEntriesByType("resource");
-//     const rourceErrorData =
-//       resources &&
-//       resources.filter((value) => {
-//         const { name, duration, initiatorType: type, transferSize } = value;
 
-//         /**
-//          * 监控资源error，响应时间超过20秒，SDK自身文件除外的所有资源error
-//          * @date 2021-11-28
-//          * @param {boolean} (Object.prototype.hasOwnProperty.call(resourceError, type) 监控资源
-//          * @param {date}  duration 资源加载时间
-//          * @param {date}  transferSize 资源大小
-//          * @returns {boolean}
-//          */
+window.addEventListener(
+  "load",
+  function () {
+    const resources = performance.getEntriesByType("resource");
+    console.log(resources);
+    const rourceErrorData =
+      resources &&
+      resources.filter((value) => {
+        const { name, duration, initiatorType: type, transferSize } = value;
 
-//         if (duration > 2000 || transferSize === 0) {
-//           return value;
-//         }
-//       });
+        /**
+         * 监控资源error，响应时间超过20秒，SDK自身文件除外的所有资源error
+         * @date 2021-11-28
+         * @param {boolean} (Object.prototype.hasOwnProperty.call(resourceError, type) 监控资源
+         * @param {date}  duration 资源加载时间
+         * @param {date}  transferSize 资源大小
+         * @returns {boolean}
+         */
 
-//     // 最终上报数据
-//     const data = rourceErrorData.map((value) => {
-//       const {
-//         initiatorType: resourceType,
-//         name: resUrl,
-//         startTime,
-//         duration,
-//       } = value;
-//       return {
-//         resUrl,
-//         type: "loadding_Long",
-//         subType: "resource",
-//         startTime,
-//         resourceType,
-//         pageURL: window.location.href,
-//         duration,
-//       };
-//     });
-//     console.log("数据", data);
+        if (duration > 200 || transferSize === 0) {
+          return value;
+        }
+      });
 
-//     data.forEach((source) => {
-//       report(source);
-//     });
-//   },
-//   false
-// );
+    // 最终上报数据
+    const data = rourceErrorData.map((value) => {
+      const { initiatorType: resourceType, name: url, duration } = value;
+      return {
+        url,
+        type: "static_src",
+        subType: "resource",
+        timeStamp: duration.toFixed(1),
+        resourceType,
+        pageURL: window.location.href,
+      };
+    });
+    data.map((item) => {
+      if (item.resourceType == "img") {
+        report(item);
+      }
+    });
+  },
+  false
+);
