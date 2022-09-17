@@ -1,4 +1,3 @@
-
 import React from "react";
 
 import { Props } from "./type";
@@ -21,9 +20,7 @@ import "./MultiCheck.css";
  */
 
 const MultiCheck: React.FunctionComponent<Props> = (props): JSX.Element => {
-  const {
-    label
-  } = props;
+  const { label } = props;
   const { optionsUI } = useSelectValues(props);
   return (
     <div className="MultiCheck">
