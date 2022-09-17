@@ -46,10 +46,13 @@ if (window.PromiseRejectionEvent) {
   window.addEventListener("unhandledrejection", (event) => {
     //promise异常，report...
     // console.log("Promise错误:", event.reason.stack);
+    console.log(event);
     report({
       type: "promise",
       stack: event.reason.stack,
       filename: event.filename,
+      pageURL: window.location.href,
+      timeStamp: event.timeStamp.toFixed("1"),
     });
   });
 }

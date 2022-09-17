@@ -46,7 +46,7 @@ const findDeveloper = ({ source, line }) => {
 
   const cuSource = source.match(sourceReg);
   return runShell(
-    `git blame ./client${cuSource && cuSource[0]} -L ${line},${line}`
+    `git blame ../client${cuSource && cuSource[0]} -L ${line},${line}`
   )
     .then((res) => {
       const data = res.match(developerReg)[0]?.split(" ");

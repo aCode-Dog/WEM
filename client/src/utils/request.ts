@@ -23,6 +23,7 @@ export const request = (
           method: init?.method || "GET",
           body: init?.body || "",
           stack: resErrotString,
+          pageURL: window.location.href,
         });
       }
       return clone.json();
@@ -35,6 +36,7 @@ export const request = (
         method: init?.method || "GET",
         body: init?.body || "",
         stack: error.stack,
+        pageURL: window.location.href,
       });
     });
 };

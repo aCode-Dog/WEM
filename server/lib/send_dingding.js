@@ -62,8 +62,6 @@ class DDReport {
     } else {
       content += `url: ${input}\n `;
       content += `\n`;
-      content += `耗时: ${timeStamp}ms \n`;
-      content += `\n`;
       content += `method: ${method} \n`;
       content += `\n`;
       body ? (content += ` body: ${body} \n`) : "";
