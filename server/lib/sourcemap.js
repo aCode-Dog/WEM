@@ -13,6 +13,7 @@ const { readFileSync } = fs;
 
 const originalPositionFor = async (errorMsg, sourceFilePath) => {
   try {
+    if (!errorMsg) return;
     const { lineno, colno } = errorMsg;
     mapfilepath = path.resolve(__dirname, `../.maps/source.js.map`);
 
@@ -42,17 +43,21 @@ const findDeveloper = ({ source, line }) => {
   if (!source || !line) {
     return;
   }
-  console.log(source);
+
   const cuSource = source.match(sourceReg);
   return runShell(
     `git blame ./client${cuSource && cuSource[0]} -L ${line},${line}`
-  ).then((res) => {
-    const data = res.match(developerReg)[0]?.split(" ");
-    return {
-      developer: data[0],
-      time: `${data[1]} ${data[2]}`,
-    };
-  });
+  )
+    .then((res) => {
+      const data = res.match(developerReg)[0]?.split(" ");
+      return {
+        developer: data[0],
+        time: `${data[1]} ${data[2]}`,
+      };
+    })
+    .catch((e) => {
+      console.log(e, "定位开发者错误");
+    });
 };
 
 module.exports = {

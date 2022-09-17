@@ -47,15 +47,15 @@ class DDReport {
       content += `src: ${url} \n`;
       content += `\n`;
     } else {
-      content += `url: ${input} `;
+      content += `url: ${input}\n `;
       content += `\n`;
       content += `method: ${method} \n`;
       content += `\n`;
-      content += `body: ${body} \n`;
+      body ? (content += ` body: ${body} \n`) : "";
       content += `\n`;
       content += `stack: ${stack} \n`;
       content += `\n`;
-      content += `userAgent: ${userAgent || ""}`;
+      userAgent ? (content += `userAgent: ${userAgent || ""}`) : "";
       content += `\n`;
     }
     return content;

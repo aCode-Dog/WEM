@@ -1,34 +1,58 @@
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { AgGridColumn, AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
+// // import "ag-grid-enterprise";
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+import { request } from "../utils/request";
 
 const Table = () => {
-  //   const [rowData, setRowData] = useState([
-  //     { make: "Toyota", model: "Celica", price: 35000 },
-  //     { make: "Ford", model: "Mondeo", price: 32000 },
-  //     { make: "Porsche", model: "Boxter", price: 72000 },
-  //   ]);
-  const data = [
-    { make: "Toyota", model: "Celica", price: 35000 },
-    { make: "Ford", model: "Mondeo", price: 32000 },
-    { make: "Porsche", model: "Boxter", price: 72000 },
-  ];
+  const containerStyle = useMemo(
+    () => ({ width: "1400px", height: "600px", margin: "0 auto" }),
+    []
+  );
+  const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
+
+  const [columnDefs, setColumnDefs] = useState([
+    { field: "athlete", filter: true },
+    { field: "country", filter: "agSetColumnFilter" },
+    { field: "gold", filter: "agNumberColumnFilter" },
+    { field: "silver", filter: "agNumberColumnFilter" },
+    { field: "bronze", filter: "agNumberColumnFilter" },
+  ]);
+  const defaultColDef = useMemo(() => {
+    return {
+      flex: 1,
+      minWidth: 200,
+      resizable: true,
+      floatingFilter: true,
+    };
+  }, []);
+  const onGridReady = useCallback((params) => {
+    request(
+      "http://localhost:3002/api/getTableList",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+        },
+      },
+      "Array"
+    ).then((data) => {
+      if (data.seccess) {
+        params.api.setRowData(data.data);
+      }
+      params.api.hideOverlay();
+    });
+  }, []);
   return (
-    <div
-      className="ag-theme-alpine"
-      style={{ height: 400, width: 600, margin: "0 auto" }}
-    >
-      <AgGridReact rowSelection="multiple" rowData={data}>
-        <AgGridColumn
-          field="make"
-          sortable={true}
-          filter={true}
-          checkboxSelection={true}
-        ></AgGridColumn>
-        <AgGridColumn field="model" filter={true}></AgGridColumn>
-        <AgGridColumn field="price" sortable={true}></AgGridColumn>
-      </AgGridReact>
+    <div style={containerStyle}>
+      <div style={gridStyle} className="ag-theme-alpine">
+        <AgGridReact
+          columnDefs={columnDefs}
+          defaultColDef={defaultColDef}
+          onGridReady={onGridReady}
+        ></AgGridReact>
+      </div>
     </div>
   );
 };

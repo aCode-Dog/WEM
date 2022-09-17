@@ -15,7 +15,7 @@ export const request = (
         .split("]")[0]
         .trim();
 
-      if (dataPrototype === expect) {
+      if (dataPrototype !== expect) {
         const resErrotString = `期待的数据类型是${expect}但是返回的是${dataPrototype}`;
         report({
           type: "fetch",

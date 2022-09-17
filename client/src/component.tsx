@@ -15,12 +15,18 @@ const Components: FunctionComponent = (): JSX.Element => {
         >
           跳转到table页
         </div>
-        <div onClick={() => [history.push({ pathname: "/errorPage" })]}>
+        <div
+          style={{ marginRight: "100px" }}
+          onClick={() => [history.push({ pathname: "/errorPage" })]}
+        >
           检测一下异步报错
+        </div>
+        <div onClick={() => [history.push({ pathname: "/staticError" })]}>
+          检测一下静态资源报错
         </div>
       </div>
       <MultiCheck
-        label="你最喜欢的技术是?"
+        label="你想了解的板块是?"
         options={options}
         onChange={onSelectedOptionsChange}
         values={selectedValues}
