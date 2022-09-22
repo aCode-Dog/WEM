@@ -1,5 +1,4 @@
-import { report } from "./errorReport";
-
+import { report } from "./reportError";
 export const request = (
   input: RequestInfo,
   init?: RequestInit | undefined,
@@ -29,7 +28,6 @@ export const request = (
       return clone.json();
     })
     .catch((error) => {
-      console.error(error);
       report({
         type: "fetch",
         input,
