@@ -1,12 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const {
-  originalPositionFor,
-  findDeveloper,
-  JS_TYPE_LIST,
-} = require("./lib/sourcemap");
-const ddContrulor = require("./lib/send_dingding");
+// const {
+//   originalPositionFor,
+//   findDeveloper,
+//   JS_TYPE_LIST,
+// } = require("./lib/sourcemap");
+// const ddContrulor = require("./lib/send_dingding");
 
 const port = 3002;
 
@@ -15,47 +15,47 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json({ type: "application/json" }));
 
-app.post("/api/report", async function (req, res) {
-  const { body } = req;
-  if (!body?.type) {
-    res.send(
-      JSON.stringify({
-        seccess: false,
-        data: false,
-      })
-    );
-    return;
-  }
-  console.log(body);
-  const userAgent = req.headers["user-agent"];
-  let reportContent = {
-    ...body,
-  };
-  console.log(body, "查看类型");
-  if (JS_TYPE_LIST.includes(body.type)) {
-    // 源码追踪
-    const position = await originalPositionFor(body.errorMsg, body.filename);
-    if (!position) return;
-    console.log(position, "position");
-    //开发者追踪;
-    const developer = await findDeveloper(position);
-    reportContent = {
-      ...reportContent,
-      ...position,
-      ...developer,
-      userAgent,
-    };
-  }
+// app.post("/api/report", async function (req, res) {
+//   const { body } = req;
+//   if (!body?.type) {
+//     res.send(
+//       JSON.stringify({
+//         seccess: false,
+//         data: false,
+//       })
+//     );
+//     return;
+//   }
+//   console.log(body);
+//   const userAgent = req.headers["user-agent"];
+//   let reportContent = {
+//     ...body,
+//   };
+//   console.log(body, "查看类型");
+//   if (JS_TYPE_LIST.includes(body.type)) {
+//     // 源码追踪
+//     const position = await originalPositionFor(body.errorMsg, body.filename);
+//     if (!position) return;
+//     console.log(position, "position");
+//     //开发者追踪;
+//     const developer = await findDeveloper(position);
+//     reportContent = {
+//       ...reportContent,
+//       ...position,
+//       ...developer,
+//       userAgent,
+//     };
+//   }
 
-  // 强通知
-  await ddContrulor.send2developer(reportContent);
-  res.send(
-    JSON.stringify({
-      seccess: true,
-      data: true,
-    })
-  );
-});
+//   // 强通知
+//   await ddContrulor.send2developer(reportContent);
+//   res.send(
+//     JSON.stringify({
+//       seccess: true,
+//       data: true,
+//     })
+//   );
+// });
 
 // mock-effct
 app.post("/api/getMockOptions", function (req, res) {

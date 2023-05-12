@@ -15,7 +15,7 @@ const originalPositionFor = async (errorMsg, sourceFilePath) => {
   try {
     if (!errorMsg) return;
     const { lineno, colno } = errorMsg;
-    mapfilepath = path.resolve(__dirname, `../.maps/source.js.map`);
+    mapfilepath = path.resolve(__dirname, `../.maps/bundle.js.map`);
 
     rawSourceMap = readFileSync(mapfilepath, "utf-8");
     const consumer = await new SourceMapConsumer(JSON.parse(rawSourceMap));
@@ -25,6 +25,7 @@ const originalPositionFor = async (errorMsg, sourceFilePath) => {
           column: colno,
         })
       : null;
+    console.log(pos);
     const sourceIndex = consumer.sources.findIndex(
       (item) => item === pos.source
     );
@@ -39,6 +40,7 @@ const originalPositionFor = async (errorMsg, sourceFilePath) => {
     console.error(`error:source-map-path: ${sourceFilePath}`, error);
   }
 };
+originalPositionFor({ lineno: 4, colno: 162571 });
 const findDeveloper = ({ source, line }) => {
   if (!source || !line) {
     return;
